@@ -2,48 +2,50 @@ import Gameboard from './gameboard';
 import Player from './player';
 
 const Game = (() => {
-  const human = Player('You');
-  const computer = Player('Computer');
-  const humanBoard = Gameboard(20, 20);
-  const computerBoard = Gameboard(20, 20);
+  // set size of boards
+  const boardSide = 10;
   
+  // create players and gameboards
+  const human = Player();
+  const computer = Player({
+    boardHeight: boardSide,
+    boardWidth: boardSide,
+  });
+  const humanBoard = Gameboard(boardSide, boardSide);
+  const computerBoard = Gameboard(boardSide, boardSide);
+  
+  // create and assign default ships coordinates
   const shipsCoords = [
     {start: [1, 1], end: [4, 1]},
-    {start: [1, 19], end: [6, 19]},
-    {start: [10, 10], end: [12, 10]}
+    {start: [1, 9], end: [6, 9]},
+    {start: [7, 8], end: [9, 8]}
   ];
+  // eslint-disable-next-line array-callback-return
   shipsCoords.map((coords) => {
     humanBoard.addShip(coords);
     computerBoard.addShip(coords);
   });
   
-  let running = false; // change to true when player clicks start
+  // variable that will eventually report the name of the winner
   let winner;
 
-  while (running) {
-    if (human.getTurnStatus()) {
-      // attack computer board
-      human.toggleTurn();
-    } else {
-      humanBoard.receiveAttack(computer.getAttackCoords());
-      computer.toggleTurn();
+  const isGameOver = () => {
+    if (humanBoard.isGameOver() || computerBoard.isGameOver()) {
+      humanBoard.isGameOver()
+        ? winner = 'You\'ve lost the war'
+        : winner = 'You have defeated the enemy !';
+      return true;
     }
-
-    if (computerBoard.isGameOver() || humanBoard.isGameOver()) {
-      running = false;
-      computerBoard.isGameOver() 
-        ? winner = human.name 
-        : winner = computer.name;
-    }
-  }
+    return false;
+  };
 
   return {
     human,
     computer,
     humanBoard,
     computerBoard,
-    running,
     winner,
+    isGameOver,
   };
 })();
 

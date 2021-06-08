@@ -1,4 +1,4 @@
-const Player = ({name, boardWidth, boardHeight}) => {
+const Player = ({name, boardWidth, boardHeight} = {}) => {
   let turn = false;
   let boardPositions = [];
 

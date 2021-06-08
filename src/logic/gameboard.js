@@ -12,10 +12,8 @@ const Gameboard = (width, height) => {
       }
     }
   } else {
-    return 'invalid width or height';
+    return 'Invalid width or height';
   }
-  
-  const ships = [];
 
   const getShipCoords = (start, end) => {
     const coords = [];
@@ -34,18 +32,22 @@ const Gameboard = (width, height) => {
 
   const isInRange = (start, end) => {
     if (
-      start[0] > 0 && start[0] < grid[0].length - 1 &&
-      start[1] > 0 && start[1] < grid.length - 1 &&
-      end[0] > 0 && end[0] < grid[0].length - 1 &&
-      end[1] > 0 && end[1] < grid.length - 1
+      start[0] >= 0 && start[0] < grid[0].length &&
+      start[1] >= 0 && start[1] < grid.length &&
+      end[0] >= 0 && end[0] < grid[0].length &&
+      end[1] >= 0 && end[1] < grid.length
     ) {
       return true;
     }
     return false;
   };
+
+  const ships = [];
   
   const addShip = ({start, end}) => {
-    if (!isInRange(start, end)) return 'position out of range';
+    if (!isInRange(start, end)) {
+      return 'Position out of range';
+    };
 
     if (
       (start[0] === end[0] && start[1] > end[1]) || // ship is positioned vertically
@@ -56,13 +58,20 @@ const Gameboard = (width, height) => {
 
     // get coordinates of each position ship occupies
     const coords = getShipCoords(start, end);
+
+    // check if any of those coordinates overlap with another ship
+    for (let i = 0; i < coords.length; i++) {
+      if (Number.isInteger(grid[coords[i][1]][coords[i][0]])) {
+        return 'Another ship is already positioned here';
+      }
+    }
     
     // add new instance of ship to ships array
     ships.push({
       coords: {start, end},
       ship: Ship(coords.length)
     });
-    
+
     // map ship onto grid
     coords.map(([x, y]) => grid[y][x] = ships.length - 1);
   };
@@ -82,18 +91,18 @@ const Gameboard = (width, height) => {
 
   const receiveAttack = ([x, y]) => {
     if (x < 0 || x > grid[0].length - 1 || y < 0 || y > grid.length - 1) {
-      return 'position is out of range';
+      return 'Position is out of range';
     }
     
     switch (grid[y][x]) {
       case false: // position was never hit
-        grid[y][x] = true;
+        grid[y][x] = 'miss';
         break;
-      case true: // position was already hit once
-        return 'position already hit';
+      case 'miss': // position was already hit once
+        return 'Position already hit';
       default: // position is an integer associated with a ship
         hitShip(grid[y][x], [x, y]);
-        grid[y][x] = true;
+        grid[y][x] = 'hit';
         break;
     }
   };
@@ -107,7 +116,6 @@ const Gameboard = (width, height) => {
 
   return {
     grid,
-    ships,
     addShip,
     receiveAttack,
     isGameOver,
