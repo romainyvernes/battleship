@@ -12,64 +12,74 @@ const Gameboard = (width, height) => {
       }
     }
   } else {
-    return 'Invalid width or height';
+    throw new Error('Invalid width or height');
   }
 
-  const getShipCoords = (start, end) => {
+  const getShipCoords = ([x, y], length, axis) => {
     const coords = [];
-    if (start[0] === end[0]) { // ship is positioned vertically
-      for (let i = start[1]; i <= end[1]; i++) {
-        coords.push([start[0], i]);
+    const [intX, intY] = [x, y].map((coord) => parseInt(coord, 10));
+    if (axis === 'y') { // ship is positioned vertically
+      for (let i = intY; i < intY + length; i++) {
+        coords.push([intX, i]);
       }
       return coords;
     }
     // if ship is positioned horizontally
-    for (let i = start[0]; i <= end[0]; i++) {
-      coords.push([i, start[1]]);
+    for (let i = intX; i < intX + length; i++) {
+      coords.push([i, intY]);
     }
     return coords;
   };
 
-  const isInRange = (start, end) => {
+  const isInRange = (coords) => {
+    const [x1, y1, x2, y2] = coords[0].concat(coords[coords.length - 1]);
     if (
-      start[0] >= 0 && start[0] < grid[0].length &&
-      start[1] >= 0 && start[1] < grid.length &&
-      end[0] >= 0 && end[0] < grid[0].length &&
-      end[1] >= 0 && end[1] < grid.length
+      x1 >= 0 && x1 < grid[0].length &&
+      y1 >= 0 && y1 < grid.length &&
+      x2 >= 0 && x2 < grid[0].length &&
+      y2 >= 0 && y2 < grid.length
     ) {
       return true;
     }
     return false;
   };
 
-  const ships = [];
-  
-  const addShip = ({start, end}) => {
-    if (!isInRange(start, end)) {
-      return 'Position out of range';
-    };
-
-    if (
-      (start[0] === end[0] && start[1] > end[1]) || // ship is positioned vertically
-      (start[1] === end[1] && start[0] > end[0]) // ship is positioned horizontally
-    ) {
-      return 'Please enter coordinates from left to right/top to bottom';
-    } 
-
-    // get coordinates of each position ship occupies
-    const coords = getShipCoords(start, end);
-
-    // check if any of those coordinates overlap with another ship
+  const isTaken = (coords) => {
     for (let i = 0; i < coords.length; i++) {
       if (Number.isInteger(grid[coords[i][1]][coords[i][0]])) {
-        return 'Another ship is already positioned here';
+        return true;
       }
+    }
+    return false;
+  };
+
+  const ships = [];
+  
+  const addShip = (coords) => {
+    const [x1, y1, x2, y2] = coords[0].concat(coords[coords.length - 1]);
+    
+    if (!isInRange(coords)) {
+      throw new Error('Position out of range');
+    };
+    
+    if (
+      (x1 === x2 && y1 > y2) || // ship is positioned vertically
+      (y1 === y2 && x1 > x2) // ship is positioned horizontally
+    ) {
+      throw new Error(
+        'Please enter coordinates from left to right/top to bottom'
+      );
+    }
+
+    // check if any of those coordinates overlap with another ship
+    if (isTaken(coords)) {
+      throw new Error('Another ship is already positioned here');
     }
     
     // add new instance of ship to ships array
     ships.push({
-      coords: {start, end},
-      ship: Ship(coords.length)
+      coords: {start: [x1, y1], end: [x2, y2]},
+      ship: Ship(coords.length),
     });
 
     // map ship onto grid
@@ -91,19 +101,19 @@ const Gameboard = (width, height) => {
 
   const receiveAttack = ([x, y]) => {
     if (x < 0 || x > grid[0].length - 1 || y < 0 || y > grid.length - 1) {
-      return 'Position is out of range';
+      throw new Error('Position is out of range');
     }
     
     switch (grid[y][x]) {
       case false: // position was never hit
         grid[y][x] = 'miss';
-        break;
+        return 'miss';
       case 'miss': // position was already hit once
-        return 'Position already hit';
+        throw new Error('Position already hit');
       default: // position is an integer associated with a ship
         hitShip(grid[y][x], [x, y]);
         grid[y][x] = 'hit';
-        break;
+        return 'hit';
     }
   };
 
@@ -114,11 +124,38 @@ const Gameboard = (width, height) => {
     return true;
   };
 
+  const placeShipRandomly = (shipLength) => {
+    const axes = ['x', 'y'];
+    
+    let loop = true;
+
+    while (loop) {
+      try {
+        const randomX = Math.floor(Math.random() * width);
+        const randomY = Math.floor(Math.random() * height);
+        const randomAxis = axes[Math.floor(Math.random() * 2)];
+        const randomCoords = getShipCoords(
+          [randomX, randomY],
+          shipLength,
+          randomAxis
+        );
+        addShip(randomCoords);
+        loop = false;
+      } catch (err) {
+        continue;
+      }
+    }
+  };
+
   return {
     grid,
+    getShipCoords,
+    isTaken,
+    isInRange,
     addShip,
     receiveAttack,
     isGameOver,
+    placeShipRandomly,
   };
 };
 

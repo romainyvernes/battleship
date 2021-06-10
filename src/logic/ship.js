@@ -4,8 +4,9 @@ const Ship = (length) => {
   const hit = (index) => {
     if (parts[index] !== 1) {
       parts[index] = 1;
+    } else {
+      throw new Error('Position already hit');
     }
-    return 'position already hit';
   };
 
   const isSunk = () => {

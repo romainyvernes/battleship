@@ -24,7 +24,9 @@ test('ship must save hit in the right place if hit', () => {
 
 test('hit should return error message if a shot hits the same position twice', () => {
   testShip.hit(1);
-  expect(testShip.hit(1)).toBe('position already hit');
+  expect(() => {
+    testShip.hit(1);
+  }).toThrow('Position already hit');
 });
 
 test('ship must sink if hit as many times as its length', () => {

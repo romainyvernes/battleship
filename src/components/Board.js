@@ -3,7 +3,16 @@ import '../styles/Board.css';
 import uniqid from "uniqid";
 
 const Board = (props) => {
-  const { grid, playerType, onClickedPosition } = props;
+  const { 
+    grid, 
+    playerType, 
+    onAttack, 
+    mode, 
+    axis, 
+    onPositionHover,
+    onPositionOut,
+    onPlaceShip,
+  } = props;
   
   return (
     <div className='board'>
@@ -11,20 +20,39 @@ const Board = (props) => {
         row.map((position, index2) => (
           <div 
             className={`board-element${
-              typeof position === 'string'
-              ? ` ${position}`
-              : ''
+              !mode && typeof position === 'string'
+                ? ` ${position}`
+                : ''
+            }${
+              mode && position === true
+                ? ' allowed'
+                : ''
+            }${
+              mode && position !== true
+                ? ' not-allowed'
+                : ''
+            }${
+              playerType === 'computer'
+                ? ' computer'
+                : ''
             }`}
             key={uniqid()}
             id={`${index2}-${index1}`}
-            onClick={onClickedPosition || null}
+            onClick={onPlaceShip || onAttack || null}
+            onMouseEnter={onPositionHover || null}
+            onMouseLeave={onPositionOut || null}
+            data-axis={axis || null}
           >
-            {playerType === 'human' && Number.isInteger(position)
+            {(playerType === 'human' || mode) && Number.isInteger(position)
               ? '・'
               : null
             }
-            {position === 'hit' || position === 'miss'
+            {position === 'hit'
               ? '✕'
+              : null
+            }
+            {position === 'miss'
+              ? '・'
               : null
             }
           </div>

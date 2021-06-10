@@ -14,17 +14,16 @@ const Game = (() => {
   const humanBoard = Gameboard(boardSide, boardSide);
   const computerBoard = Gameboard(boardSide, boardSide);
   
-  // create and assign default ships coordinates
-  const shipsCoords = [
-    {start: [1, 1], end: [4, 1]},
-    {start: [1, 9], end: [6, 9]},
-    {start: [7, 8], end: [9, 8]}
+  // array of ships to place
+  const shipsToPlace = [
+    {name: 'Carrier', length: 5},
+    {name: 'Battleship', length: 4},
+    {name: 'Destroyer', length: 3},
+    {name: 'Submarine', length: 3},
+    {name: 'Patrol Boat', length: 2},
   ];
-  // eslint-disable-next-line array-callback-return
-  shipsCoords.map((coords) => {
-    humanBoard.addShip(coords);
-    computerBoard.addShip(coords);
-  });
+  
+  shipsToPlace.map((ship) => computerBoard.placeShipRandomly(ship.length));
   
   // variable that will eventually report the name of the winner
   let winner;
@@ -46,6 +45,7 @@ const Game = (() => {
     computerBoard,
     winner,
     isGameOver,
+    shipsToPlace,
   };
 })();
 
