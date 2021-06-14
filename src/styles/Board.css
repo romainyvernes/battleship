@@ -1,14 +1,14 @@
 .board {
   display: grid;
-  height: 400px;
-  width: 400px;
+  min-height: 450px;
+  min-width: 450px;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  gap: 2px;
+  gap: 3px;
 }
 
 .board-element {
-  border: 1px solid black;
+  border: 1px solid white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,8 +16,44 @@
 
 .allowed {
   background-color: green;
+  cursor: pointer;
 }
 
 .not-allowed {
-  background-color: red;
+  cursor: not-allowed;
+}
+
+.not-allowed:hover {
+  background-color: rgba(224, 5, 5, 0.5);
+}
+
+.hit,
+.miss {
+  font-size: 1.5em;
+}
+
+.hit {
+  color: red;
+}
+
+.board-element.computer {
+  cursor: crosshair;
+}
+
+.board-element.computer:hover {
+  background-color: green;
+}
+
+.computer.hit,
+.computer.miss {
+  cursor: not-allowed;
+}
+
+.computer.hit:hover,
+.computer.miss:hover {
+  background-color: rgba(224, 5, 5, 0.5);
+}
+
+.board-element.ship {
+  background-color: rgba(128, 128, 128, 0.5);
 }

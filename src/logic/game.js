@@ -16,23 +16,19 @@ const Game = (() => {
   
   // array of ships to place
   const shipsToPlace = [
-    {name: 'Carrier', length: 5},
-    {name: 'Battleship', length: 4},
-    {name: 'Destroyer', length: 3},
-    {name: 'Submarine', length: 3},
-    {name: 'Patrol Boat', length: 2},
+    {name: 'carrier', length: 5},
+    {name: 'battleship', length: 4},
+    {name: 'destroyer', length: 3},
+    {name: 'submarine', length: 3},
+    {name: 'patrol boat', length: 2},
   ];
   
-  shipsToPlace.map((ship) => computerBoard.placeShipRandomly(ship.length));
-  
-  // variable that will eventually report the name of the winner
-  let winner;
+  shipsToPlace.map((ship) => (
+    computerBoard.placeShipRandomly(ship.length, ship.name)
+  ));
 
   const isGameOver = () => {
     if (humanBoard.isGameOver() || computerBoard.isGameOver()) {
-      humanBoard.isGameOver()
-        ? winner = 'You\'ve lost the war'
-        : winner = 'You have defeated the enemy !';
       return true;
     }
     return false;
@@ -43,7 +39,6 @@ const Game = (() => {
     computer,
     humanBoard,
     computerBoard,
-    winner,
     isGameOver,
     shipsToPlace,
   };

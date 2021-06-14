@@ -1,4 +1,4 @@
-const Ship = (length) => {
+const Ship = (length, name='') => {
   const parts = new Array(length).fill(0);
 
   const hit = (index) => {
@@ -17,6 +17,7 @@ const Ship = (length) => {
   };
 
   return {
+    name,
     parts,
     hit,
     isSunk,

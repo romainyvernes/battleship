@@ -3,7 +3,12 @@ import Board from './Board';
 import '../styles/Main.css';
 
 const Main = (props) => {
-  const { humanGrid, computerGrid, onAttack, playStatus } = props;
+  const { 
+    humanGrid, 
+    computerGrid, 
+    onAttack, 
+    playStatus,
+  } = props;
   
   return (
     <div className='main'>

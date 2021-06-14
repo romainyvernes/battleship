@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Board from './Board';
+import '../styles/Setup.css';
 
 const Setup = (props) => {
   const { 
@@ -20,9 +21,9 @@ const Setup = (props) => {
 
   return (
     <div className='setup'>
-      <div className='axis-selection' onClick={toggleAxis}>
-        <p>{axis === 'x' ? 'Horizontal' : 'Vertical'}</p>
-      </div>
+      <p className='axis-selection' onClick={toggleAxis}>
+        {axis === 'x' ? 'Horizontal' : 'Vertical'}
+      </p>
       <Board 
         grid={grid} 
         mode={'setup'} 

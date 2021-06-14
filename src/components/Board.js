@@ -31,9 +31,12 @@ const Board = (props) => {
               mode && position !== true
                 ? ' not-allowed'
                 : ''
+            } ${
+              playerType || ''
             }${
-              playerType === 'computer'
-                ? ' computer'
+              Number.isInteger(position) && 
+              (playerType === 'human' || !playerType)
+                ? ' ship'
                 : ''
             }`}
             key={uniqid()}
@@ -44,15 +47,11 @@ const Board = (props) => {
             data-axis={axis || null}
           >
             {(playerType === 'human' || mode) && Number.isInteger(position)
-              ? '・'
+              ? '●'
               : null
             }
-            {position === 'hit'
+            {position === 'hit' || position === 'miss'
               ? '✕'
-              : null
-            }
-            {position === 'miss'
-              ? '・'
               : null
             }
           </div>

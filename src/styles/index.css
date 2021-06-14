@@ -1,9 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Aldrich&display=swap');
+
 html {
   box-sizing: border-box;
+  background-color: rgb(12, 37, 122);
+}
+
+body {
+  margin: 0;
 }
 
 *,
 *:before,
 *:after {
-box-sizing: inherit;
+  box-sizing: inherit;
+  color: white;
+  font-family: 'Aldrich', sans-serif;
 }
+

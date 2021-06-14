@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/App.css';
 import Game from '../logic/game';
 import Setup from './Setup';
@@ -18,23 +18,76 @@ const App = () => {
   const [shipToPlaceIndex, setShipToPlaceIndex] = useState(0);
   // state variable that stores message to display in dialog box
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (shipToPlaceIndex < Game.shipsToPlace.length) {
+      setMessage(`Admiral, where shall we place our ${
+        Game.shipsToPlace[shipToPlaceIndex].name
+      } ?`);
+    } else {
+      setMessage('Admiral, what are your next orders ?');
+    }
+  }, [shipToPlaceIndex]);
+  
+  const handleAttackMessages = (attackObj, player) => {
+    let newMessage = '';
+
+    if (player === 'human') {
+      newMessage += 'Our fleet is firing at the enemy';
+    } else {
+      newMessage += 'The enemy is firing';
+    }
+
+    const { message, ship } = attackObj;
+
+    if (message === 'miss') {
+      newMessage += '...but missed';
+    }
+
+    if (message === 'hit') {
+      if (ship.isSunk()) {
+        newMessage += `...and sank a ${ship.name}`;
+      } else {
+        newMessage += '...and struck a ship';
+      }
+    }
+
+    setMessage(newMessage);
+  };
   
   const onAttack = (e) => {
     const { id } = e.currentTarget;
     const { computerBoard, humanBoard, isGameOver, computer } = Game;
-
-    computerBoard.receiveAttack(id.split('-'));
+    
+    // trigger attack on computer and pass in result to handleAttackMessages
+    handleAttackMessages(
+      computerBoard.receiveAttack(id.split('-')), 
+      'human'
+    );
+    
+    // update computerGrid to trigger new render in Main
     setComputerGrid(computerBoard.grid.map((row) => [...row]));
     
     if (isGameOver()) {
+      // disable game so player can no longer attack computer
       setPlayStatus(false);
-      setMessage(Game.winner);
+
+      // display winning message for player or computer
+      if (humanBoard.isGameOver()) {
+        setMessage('We\'ve lost this battle, Admiral');
+      } else {
+        setMessage('We have defeated the enemy !');
+      }
     } else {
-      setMessage('The enemy is attacking !')
+      setPlayStatus(false); // disable attack function for player
       setTimeout(() => {
-        humanBoard.receiveAttack(computer.getAttackCoords());
+        handleAttackMessages(
+          humanBoard.receiveAttack(computer.getAttackCoords()),
+          'computer'
+        );
         setHumanGrid(humanBoard.grid.map((row) => [...row]));
-      }, 2000);
+        setPlayStatus(true); // reenable attack function once computer has played
+      }, 3000);
     }
   };
 
@@ -79,14 +132,19 @@ const App = () => {
     );
     
     if (isInRange(coords) && !isTaken(coords)) {
-      addShip(coords);
+      addShip(coords, shipsToPlace[shipToPlaceIndex].name);
       setShipToPlaceIndex(shipToPlaceIndex + 1);
       setHumanGrid(grid.map((row) => [...row]));
     }
   };
 
+  const resetGame = () => {
+    window.location.reload();
+  };
+
   return (
     <div className='app'>
+      <h1>BATTLESHIP</h1>
       <DialogBox message={message} />
       {shipToPlaceIndex < Game.shipsToPlace.length
         ? <Setup 
@@ -102,6 +160,14 @@ const App = () => {
             playStatus={playStatus}
           />
       }
+      <button 
+        type='submit' 
+        onClick={resetGame} 
+        id='restart-btn' 
+        className={!Game.isGameOver() ? 'hide-restart' : ''}
+      >
+        Ready for another battle ?
+      </button>
     </div>
   );
 };

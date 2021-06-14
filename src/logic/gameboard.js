@@ -55,7 +55,7 @@ const Gameboard = (width, height) => {
 
   const ships = [];
   
-  const addShip = (coords) => {
+  const addShip = (coords, name) => {
     const [x1, y1, x2, y2] = coords[0].concat(coords[coords.length - 1]);
     
     if (!isInRange(coords)) {
@@ -79,7 +79,7 @@ const Gameboard = (width, height) => {
     // add new instance of ship to ships array
     ships.push({
       coords: {start: [x1, y1], end: [x2, y2]},
-      ship: Ship(coords.length),
+      ship: Ship(coords.length, name),
     });
 
     // map ship onto grid
@@ -97,6 +97,8 @@ const Gameboard = (width, height) => {
     }
 
     ship.hit(shipPartIndex);
+
+    return ship;
   };
 
   const receiveAttack = ([x, y]) => {
@@ -107,13 +109,18 @@ const Gameboard = (width, height) => {
     switch (grid[y][x]) {
       case false: // position was never hit
         grid[y][x] = 'miss';
-        return 'miss';
+        return {
+          message: 'miss',
+        };
       case 'miss': // position was already hit once
         throw new Error('Position already hit');
       default: // position is an integer associated with a ship
-        hitShip(grid[y][x], [x, y]);
+        const ship = hitShip(grid[y][x], [x, y]);
         grid[y][x] = 'hit';
-        return 'hit';
+        return { 
+          message: 'hit',
+          ship,
+        };
     }
   };
 
@@ -124,7 +131,7 @@ const Gameboard = (width, height) => {
     return true;
   };
 
-  const placeShipRandomly = (shipLength) => {
+  const placeShipRandomly = (shipLength, name) => {
     const axes = ['x', 'y'];
     
     let loop = true;
@@ -139,7 +146,7 @@ const Gameboard = (width, height) => {
           shipLength,
           randomAxis
         );
-        addShip(randomCoords);
+        addShip(randomCoords, name);
         loop = false;
       } catch (err) {
         continue;

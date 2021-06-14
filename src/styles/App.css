@@ -1,3 +1,29 @@
 .app {
-  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  color: rgb(163, 163, 163);
+  font-size: 4em;
+  margin: 0.5em 0;
+}
+
+.hide-restart {
+  visibility: hidden;
+}
+
+#restart-btn {
+  border: 1px solid white;
+  margin: 2em 0;
+  padding: 1em 1.5em;
+  border-radius: 10px;
+  background-color: transparent;
+  font-size: 1.3em;
+}
+
+#restart-btn:hover {
+  background-color: white;
+  color: rgb(12, 37, 122);
 }
