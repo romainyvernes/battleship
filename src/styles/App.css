@@ -11,7 +11,7 @@ h1 {
 }
 
 .hide-restart {
-  visibility: hidden;
+  display: none;
 }
 
 #restart-btn {
@@ -26,4 +26,12 @@ h1 {
 #restart-btn:hover {
   background-color: white;
   color: rgb(12, 37, 122);
+  cursor: pointer;
+}
+
+@media (max-width: 1000px) {
+  #restart-btn {
+    font-size: 1em;
+    margin: 0 0 2em 0;
+  }
 }

@@ -57,3 +57,11 @@
 .board-element.ship {
   background-color: rgba(128, 128, 128, 0.5);
 }
+
+@media (max-width: 1000px) {
+  .board {
+    margin-bottom: 2em;
+    min-height: 400px;
+    min-width: 400px;
+  }
+}

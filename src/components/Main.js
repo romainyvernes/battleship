@@ -12,12 +12,18 @@ const Main = (props) => {
   
   return (
     <div className='main'>
-      <Board grid={humanGrid} playerType={'human'} />
-      <Board 
-        grid={computerGrid} 
-        playerType={'computer'}
-        onAttack={playStatus ? onAttack : null}
-      />
+      <div className='grid-container' id='friendly'>
+        <h2>Friendly Waters</h2>
+        <Board grid={humanGrid} playerType={'human'} />
+      </div>
+      <div className='grid-container' id='enemy'>
+        <h2>Enemy Waters</h2>
+        <Board 
+          grid={computerGrid} 
+          playerType={'computer'}
+          onAttack={playStatus ? onAttack : null}
+        />
+      </div>
     </div>
   );
 };
