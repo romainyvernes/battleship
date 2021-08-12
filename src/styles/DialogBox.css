@@ -1,10 +1,9 @@
 .dialog-box {
   border: 1px solid white;
-  margin-bottom: 3em;
+  margin-bottom: 4em;
   padding: 1.5em 0;
   border-radius: 10px;
   width: 85%;
-  text-align: center;
 }
 
 .dialog-box p {
@@ -20,24 +19,9 @@
   to { width: 100% }
 }
 
-@media (max-width: 1000px) {
-  .dialog-box p {
-    font-size: 0.9em;
-  }
-
+/* mobile display */
+@media screen and (max-width: 768px) {
   .dialog-box {
-    margin-bottom: 2em;
-    padding: 1.3em 0;
-  }
-}
-
-@media (max-width: 700px) {
-  .dialog-box p {
-    font-size: 0.8em;
-  }
-
-  .dialog-box {
-    margin-bottom: 2em;
-    padding: 1.3em 0;
+    width: 100%;
   }
 }

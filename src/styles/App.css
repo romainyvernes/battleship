@@ -2,12 +2,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 2em;
+  font-size: 2vw;
 }
 
 h1 {
   color: rgb(163, 163, 163);
-  font-size: 4em;
-  margin: 0.5em 0;
+  font-size: 8vw;
+  margin-bottom: 0.25em;
+  font-weight: 700;
+  font-family: 'Sarpanch', sans-serif;
 }
 
 .hide-restart {
@@ -16,22 +20,14 @@ h1 {
 
 #restart-btn {
   border: 1px solid white;
-  margin: 2em 0;
+  margin-bottom: 2em;
   padding: 1em 1.5em;
   border-radius: 10px;
   background-color: transparent;
-  font-size: 1.3em;
 }
 
 #restart-btn:hover {
   background-color: white;
   color: rgb(12, 37, 122);
   cursor: pointer;
-}
-
-@media (max-width: 1000px) {
-  #restart-btn {
-    font-size: 1em;
-    margin: 0 0 2em 0;
-  }
 }

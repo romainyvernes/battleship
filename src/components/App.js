@@ -146,6 +146,19 @@ const App = () => {
     <div className='app'>
       <h1>BATTLESHIP</h1>
       <DialogBox message={message} />
+      <button 
+        type='submit' 
+        onClick={resetGame} 
+        id='restart-btn' 
+        className={
+          !Game.isGameOver() ||
+          shipToPlaceIndex < Game.shipsToPlace.length
+          ? 'hide-restart' 
+          : ''
+        }
+      >
+        Ready for another battle ?
+      </button>
       {shipToPlaceIndex < Game.shipsToPlace.length
         ? <Setup 
             grid={humanGrid} 
@@ -160,19 +173,6 @@ const App = () => {
             playStatus={playStatus}
           />
       }
-      <button 
-        type='submit' 
-        onClick={resetGame} 
-        id='restart-btn' 
-        className={
-          !Game.isGameOver() ||
-          shipToPlaceIndex < Game.shipsToPlace.length
-          ? 'hide-restart' 
-          : ''
-        }
-      >
-        Ready for another battle ?
-      </button>
     </div>
   );
 };
