@@ -9,3 +9,4 @@ This project is from The Odin Project's Full Stack Javascript curriculum.
 [Live App](https://romainyvernes.github.io/battleship/)
 
 ![Battleship](https://user-images.githubusercontent.com/65140547/128109641-b69b541f-2b79-401b-a422-2276935f9982.png)
+
