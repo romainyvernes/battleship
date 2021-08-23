@@ -1,5 +1,6 @@
 .main {
   width: 100%;
+  max-width: 150vh;
   display: flex;
   justify-content: space-around;
 }
@@ -10,14 +11,15 @@
 
 .grid-container h2 {
   margin-bottom: 0.5em;
-  font-size: 3vw;
+  font-size: 1.7em;
 }
 
 /* tablet display */
-@media (max-width: 1023px) {
+@media screen and (max-width: 1023px) {
   .main {
     flex-direction: column;
-    gap: 70px;
+    gap: 4em;
+    width: 80%;
   }
 
   .grid-container h2 {
