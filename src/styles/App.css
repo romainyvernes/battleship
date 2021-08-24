@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5em;
+  padding: 1em 1.5em;
   font-size: 0.9em;
   margin: 0 auto;
   white-space: nowrap;
@@ -11,7 +11,7 @@
 
 h1 {
   color: rgb(163, 163, 163);
-  font-size: 3.5em;
+  font-size: 10vh;
   margin-bottom: 0.1em;
   font-weight: 700;
   font-family: 'Sarpanch', sans-serif;
@@ -38,6 +38,10 @@ h1 {
 @media screen and (max-width: 1023px) {
   .app {
     height: 100%;
+  }
+
+  h1 {
+    font-size: 12vw;
   }
 }
 

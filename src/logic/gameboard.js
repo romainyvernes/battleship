@@ -113,7 +113,9 @@ const Gameboard = (width, height) => {
           message: 'miss',
         };
       case 'miss': // position was already hit once
-        throw new Error('Position already hit');
+        return {
+          message: 'already hit'
+        };
       default: // position is an integer associated with a ship
         const ship = hitShip(grid[y][x], [x, y]);
         grid[y][x] = 'hit';

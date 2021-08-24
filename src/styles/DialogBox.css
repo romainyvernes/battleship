@@ -5,6 +5,7 @@
   border-radius: 10px;
   width: 100%;
   max-width: 600px;
+  overflow: hidden;
 }
 
 .dialog-box p {
@@ -15,7 +16,25 @@
 }
 
 @keyframes type {
-  from { width: 0 }
-  to { width: 100% }
+  from {
+    width: 0;
+  }
+
+  to { 
+    width: 100%;
+  }
 }
 
+/* standard mobile display */
+@media screen and (max-width: 767px) {
+  .dialog-box p {
+    font-size: 0.9em;
+  }
+}
+
+/* small and medium mobile display */
+@media screen and (max-width: 424px) {
+  .dialog-box p {
+    white-space: normal;
+  }
+}

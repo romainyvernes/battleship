@@ -44,6 +44,10 @@ const App = () => {
       newMessage += '...but missed';
     }
 
+    if (message === 'already hit') {
+      newMessage += '...but already hit this position';
+    }
+
     if (message === 'hit') {
       if (ship.isSunk()) {
         newMessage += `...and sank a ${ship.name}`;
@@ -87,7 +91,7 @@ const App = () => {
         );
         setHumanGrid(humanBoard.grid.map((row) => [...row]));
         setPlayStatus(true); // reenable attack function once computer has played
-      }, 3000);
+      }, 5000);
     }
   };
 
