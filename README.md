@@ -1,6 +1,6 @@
 ## Battleship
 ### Description
-Play the gameboard classic, Battleship.
+The gameboard classic, Battleship, entirely made with React.
 ### Instructions
 Start by placing your five ships horizontally or vertically within the board. Then, take aim at the enemy's ships by clicking on a chosen location on their board. But be prepared to be fired upon in return. The first player to sink the other's ships wins the game.
 ### About
